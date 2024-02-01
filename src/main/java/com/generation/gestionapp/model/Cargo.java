@@ -1,12 +1,20 @@
 package com.generation.gestionapp.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "cargos")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Cargo {
 
     @Id
@@ -22,33 +30,4 @@ public class Cargo {
     private Integer sueldoCargo;
 
 
-    //Constructores
-    public Cargo() {
-    }
-
-    public Cargo(String nombreCargo, Integer sueldoCargo) {
-        this.nombreCargo = nombreCargo;
-        this.sueldoCargo = sueldoCargo;
-    }
-
-    //Getter y Setter
-    public long getCargoId() {
-        return cargoId;
-    }
-
-    public String getNombreCargo() {
-        return nombreCargo;
-    }
-
-    public void setNombreCargo(String nombreCargo) {
-        this.nombreCargo = nombreCargo;
-    }
-
-    public Integer getSueldoCargo() {
-        return sueldoCargo;
-    }
-
-    public void setSueldoCargo(Integer sueldoCargo) {
-        this.sueldoCargo = sueldoCargo;
-    }
 }
