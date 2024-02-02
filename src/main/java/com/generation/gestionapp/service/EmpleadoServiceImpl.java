@@ -55,9 +55,12 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 
     @Override
     public Empleado editarEmpleadoPorId(Empleado empleadoParaEditar, Long id) {
-        Boolean empleadoExiste = empleadoRepository.existsById(id);
+        Boolean empleadoExiste = empleadoRepository.existsById(empleadoParaEditar.getEmpleadoId());
+
+        Empleado empleadoSeleccionado = empleadoRepository.findById(id).get();
 
         if(empleadoExiste && empleadoParaEditar != null) {
+            empleadoParaEditar.setEmpleadoId(empleadoSeleccionado.getEmpleadoId());
             return empleadoRepository.save(empleadoParaEditar);
         } else {
             return null;
