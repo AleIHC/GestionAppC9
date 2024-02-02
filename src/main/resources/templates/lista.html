@@ -16,6 +16,8 @@
         <th scope="col">Dirección</th>
         <th scope="col">Años de antiguedad</th>
         <th scope="col">Correo</th>
+        <th scope="col">Editar</th>
+        <th scope="col">Borrar</th>
       </tr>
       </thead>
       <tbody>
@@ -24,6 +26,14 @@
           <td th:text="${empleado.direccionEmpleado}"></td>
           <td th:text="${empleado.aniosAntiguedad}"></td>
           <td th:text="${empleado.correoEmpleado}"></td>
+          <td>
+            <a th:href="@{'/empleados/editar/' + ${empleado.empleadoId}}" class="btn btn-success">Editar</a>
+          </td>
+          <td>
+            <form th:action="@{'/empleados/borrar/' + ${empleado.empleadoId}}" method="post">
+              <button type="submit">Borrar</button>
+            </form>
+          </td>
         </tr>
       </tbody>
     </table>

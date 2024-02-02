@@ -47,6 +47,23 @@ public class EmpleadoServiceImpl implements EmpleadoService {
         return empleadoRepository.findAll();
     }
 
+    @Override
+    public Empleado buscarEmpleadoPorId(Long id) {
+        return empleadoRepository.findById(id).get();
+    }
+
+
+    @Override
+    public Empleado editarEmpleadoPorId(Empleado empleadoParaEditar, Long id) {
+        Boolean empleadoExiste = empleadoRepository.existsById(id);
+
+        if(empleadoExiste && empleadoParaEditar != null) {
+            return empleadoRepository.save(empleadoParaEditar);
+        } else {
+            return null;
+        }
+    }
+
     //Método para asignar tareas a empleados que recibe el Id de una tarea y el Id de un empleado para asignarle la tarea
     public void asignarTareaEmpleado(Long tareaId, Long empleadoId) {
         //Buscamos en la lista de tareas por el id de la tarea indicada

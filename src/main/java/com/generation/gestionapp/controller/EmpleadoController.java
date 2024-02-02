@@ -6,10 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,6 +35,25 @@ public class EmpleadoController {
     @PostMapping("/guardar")
     public String guardarNuevoEmpleado(@ModelAttribute Empleado nuevoEmpleado) {
         empleadoService.guardarEmpleado(nuevoEmpleado);
+        return "redirect:/empleados/lista";
+    }
+
+    @GetMapping("/editar/{id}")
+    public String mostrarFormularioEdicion(@PathVariable Long id, Model model) {
+        Empleado empleadoAEditar = empleadoService.buscarEmpleadoPorId(id);
+        model.addAttribute("empleado", empleadoAEditar);
+        return "formularioeditar";
+    }
+
+    @PostMapping("/actualizar/{id}")
+    public String actualizarEmpleado(@PathVariable Long id, @ModelAttribute Empleado empleadoEditado) {
+        empleadoService.editarEmpleadoPorId(empleadoEditado, id);
+        return "redirect:/empleados/lista";
+    }
+
+    @PostMapping("/borrar/{id}")
+    public String borrarEmpleado(@PathVariable Long id) {
+        empleadoService.borrarEmpleadoPorId(id);
         return "redirect:/empleados/lista";
     }
 }

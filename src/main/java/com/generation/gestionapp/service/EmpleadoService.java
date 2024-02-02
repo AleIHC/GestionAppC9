@@ -12,4 +12,8 @@ public interface EmpleadoService {
     void borrarEmpleadoPorId(Long empleadoId);
 
     List<Empleado> listarEmpleados();
+
+    Empleado editarEmpleadoPorId(Empleado empleadoParaEditar, Long id);
+
+    Empleado buscarEmpleadoPorId(Long id);
 }
