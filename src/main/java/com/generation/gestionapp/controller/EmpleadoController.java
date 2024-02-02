@@ -38,10 +38,14 @@ public class EmpleadoController {
         return "redirect:/empleados/lista";
     }
 
+    //Controlar para mostrar la vista del formulario de edición
     @GetMapping("/editar/{id}")
     public String mostrarFormularioEdicion(@PathVariable Long id, Model model) {
+        //Se crea una variable que se llama empeladoAEditar y equivale al empleado que se busca por el id
         Empleado empleadoAEditar = empleadoService.buscarEmpleadoPorId(id);
+        //A través del model, se lo pasamos a la vista
         model.addAttribute("empleado", empleadoAEditar);
+        // Me muestra la vista de formulario
         return "formularioeditar";
     }
 
