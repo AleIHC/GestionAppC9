@@ -10,7 +10,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity//Con la anotación entity, le decimos que representa una tabla
 @Table(name = "empleados")//Con la anotación table, podemos especificar el nombre de esa tabla
@@ -47,8 +48,8 @@ public class Empleado {
     @JoinColumn(name = "cargo_id")
     private Cargo cargoEmpleado;
 
-    /*
-    @ManyToMany(mappedBy = "tareaEmpleados")
-    private ArrayList<Tarea> empleadoTareas;
-    */
+
+    @ManyToMany(mappedBy = "tareaEmpleados", fetch = FetchType.LAZY)
+    private List<Tarea> empleadoTareas;
+
 }

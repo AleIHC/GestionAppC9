@@ -7,4 +7,11 @@ import java.util.List;
 public interface TareaService {
 
     List<Tarea> obtenerListaTareas();
+
+    Tarea guardarTarea(Tarea tareaParaGuardar);
+
+    void eliminarTareaPorId(Long id);
+
+    Tarea editarTareaPorId(Tarea tareaParaEditar, Long id);
+
 }

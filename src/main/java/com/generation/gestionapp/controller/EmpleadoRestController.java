@@ -3,6 +3,10 @@ package com.generation.gestionapp.controller;
 import com.generation.gestionapp.model.Empleado;
 import com.generation.gestionapp.service.EmpleadoServiceImpl;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +32,9 @@ public class EmpleadoRestController {
     //Obtener lista de empleados
     @GetMapping("/lista")
     public ResponseEntity<List<Empleado>> buscarListaEmpleados() {
+
         List<Empleado> listaEmpleados = empleadoService.listarEmpleados();
+
         return new ResponseEntity<>(listaEmpleados, HttpStatus.OK);
     }
 
@@ -55,6 +61,7 @@ public class EmpleadoRestController {
 
         return new ResponseEntity<>(empleadoEditado, HttpStatus.OK);
     }
+
 
 
 

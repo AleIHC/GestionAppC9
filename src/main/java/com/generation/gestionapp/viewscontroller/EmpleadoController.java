@@ -3,6 +3,10 @@ package com.generation.gestionapp.viewscontroller;
 import com.generation.gestionapp.model.Empleado;
 import com.generation.gestionapp.service.EmpleadoServiceImpl;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +22,10 @@ public class EmpleadoController {
 
     @GetMapping("/lista")
     public String mostrarListaEmpleados(Model model) {
+
         //LLamamos al service para que nos traiga una lista de empleados a través del repository y lo guardamos en una variable
         List<Empleado> listaEmpleados = empleadoService.listarEmpleados();
+
         //Al model para pasar a la vista le asignamos el valor de la variable
         model.addAttribute("empleados", listaEmpleados);
         return "lista";

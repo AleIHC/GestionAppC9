@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "departamentos")
@@ -19,5 +20,5 @@ public class Departamento {
     private String nombreDepartamento;
 
     @OneToMany(mappedBy = "departamentoEmpleado")// Indicamos de donde viene mapeada la relación
-    private ArrayList<Empleado> empleadosDepartamento;
+    private List<Empleado> empleadosDepartamento;
 }
