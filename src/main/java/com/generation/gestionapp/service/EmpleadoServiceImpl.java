@@ -1,7 +1,11 @@
 package com.generation.gestionapp.service;
 
+import com.generation.gestionapp.dto.EmpleadoDTO;
+import com.generation.gestionapp.dto.EmpleadoEditarDTO;
+import com.generation.gestionapp.model.Departamento;
 import com.generation.gestionapp.model.Empleado;
 import com.generation.gestionapp.model.Tarea;
+import com.generation.gestionapp.repository.DepartamentoRepository;
 import com.generation.gestionapp.repository.EmpleadoRepository;
 import com.generation.gestionapp.repository.TareaRepository;
 import jakarta.transaction.Transactional;
@@ -23,13 +27,25 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 // @Autowired = Con esta anotación inyecto un componente dentro de esta clase
     private EmpleadoRepository empleadoRepository;
     private TareaRepository tareaRepository;
+    private DepartamentoRepository departamentoRepository;
 
     @Override
-    public Empleado guardarEmpleado(Empleado empleadoParaGuardar) {
-        Boolean empleadoExiste = empleadoRepository.existsById(empleadoParaGuardar.getEmpleadoId());
+    public EmpleadoDTO guardarEmpleado(EmpleadoDTO empleadoParaGuardar) {
+        //Boolean empleadoExiste = empleadoRepository.existsById(empleadoParaGuardar.getCorreoEmpleado());
         //Agrego validaciones antes de guardar al empleado
-        if (!(empleadoExiste) && empleadoParaGuardar.getAniosAntiguedad() > 1) {
-            return empleadoRepository.save(empleadoParaGuardar);
+        Departamento departamentoEmpleado = departamentoRepository.
+                findByNombreDepartamento(empleadoParaGuardar.getNombreDepartamento());
+
+        if (empleadoParaGuardar.getNombreEmpleado() != null) {
+            //Creamos una nueva instancia vacía del empleado
+            Empleado empleadoNuevo = new Empleado();
+
+            empleadoNuevo.setNombreEmpleado(empleadoParaGuardar.getNombreEmpleado());
+            empleadoNuevo.setCorreoEmpleado(empleadoParaGuardar.getCorreoEmpleado());
+            empleadoNuevo.setDireccionEmpleado(empleadoParaGuardar.getDireccionEmpleado());
+            empleadoNuevo.setDepartamentoEmpleado(departamentoEmpleado);
+            empleadoRepository.save(empleadoNuevo);
+            return empleadoParaGuardar;
         } else {
             return null;
         }
@@ -57,14 +73,20 @@ public class EmpleadoServiceImpl implements EmpleadoService {
     }
 
     @Override
-    public Empleado editarEmpleadoPorId(Empleado empleadoParaEditar, Long id) {
-        Boolean empleadoExiste = empleadoRepository.existsById(empleadoParaEditar.getEmpleadoId());
+    public EmpleadoEditarDTO editarEmpleadoPorId(EmpleadoEditarDTO empleadoParaEditar, Long id) {
+        Boolean empleadoExiste = empleadoRepository.existsById(id);
 
         Empleado empleadoSeleccionado = empleadoRepository.findById(id).get();
 
         if(empleadoExiste && empleadoParaEditar != null) {
-            empleadoParaEditar.setEmpleadoId(empleadoSeleccionado.getEmpleadoId());
-            return empleadoRepository.save(empleadoParaEditar);
+
+            empleadoSeleccionado.setDireccionEmpleado(empleadoParaEditar.getDireccionEmpleado());
+            empleadoSeleccionado.setNombreEmpleado(empleadoParaEditar.getNombreEmpleado());
+            empleadoSeleccionado.setCorreoEmpleado(empleadoParaEditar.getCorreoEmpleado());
+            empleadoSeleccionado.setAniosAntiguedad(empleadoParaEditar.getAniosAntiguedad());
+            empleadoRepository.save(empleadoSeleccionado);
+
+            return empleadoParaEditar;
         } else {
             return null;
         }
@@ -72,9 +94,9 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 
 
     //Método para asignar tareas a empleados que recibe el Id de una tarea y el Id de un empleado para asignarle la tarea
-    public void asignarTareaEmpleado(Long tareaId, Long empleadoId) {
+    public void asignarTareaEmpleado(Long id, Long empleadoId) {
         //Buscamos en la lista de tareas por el id de la tarea indicada
-        Tarea tareaParaAsignar = tareaRepository.findById(tareaId).get();
+        Tarea tareaParaAsignar = tareaRepository.findById(id).get();
         //Asignar la tarea al empleado
         Empleado empleadoSeleccionado = empleadoRepository.findById(empleadoId).get();
 

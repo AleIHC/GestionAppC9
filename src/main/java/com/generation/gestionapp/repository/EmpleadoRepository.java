@@ -14,5 +14,6 @@ import java.util.List;
 public interface EmpleadoRepository extends JpaRepository<Empleado, Long> {
     //Hereda de JPARepository que aporta métodos para realizar CRUD y Paginación y orden
 
+    Empleado findByCorreoEmpleado(String correoEmpleado);
 
 }

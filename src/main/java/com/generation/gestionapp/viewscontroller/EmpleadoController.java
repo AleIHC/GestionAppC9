@@ -1,5 +1,7 @@
 package com.generation.gestionapp.viewscontroller;
 
+import com.generation.gestionapp.dto.EmpleadoDTO;
+import com.generation.gestionapp.dto.EmpleadoEditarDTO;
 import com.generation.gestionapp.model.Empleado;
 import com.generation.gestionapp.service.EmpleadoServiceImpl;
 import lombok.AllArgsConstructor;
@@ -37,8 +39,9 @@ public class EmpleadoController {
         return "formulario";
     }
 
+
     @PostMapping("/guardar")
-    public String guardarNuevoEmpleado(@ModelAttribute Empleado nuevoEmpleado) {
+    public String guardarNuevoEmpleado(@ModelAttribute EmpleadoDTO nuevoEmpleado) {
         empleadoService.guardarEmpleado(nuevoEmpleado);
         return "redirect:/empleados/lista";
     }
@@ -55,7 +58,7 @@ public class EmpleadoController {
     }
 
     @PostMapping("/actualizar/{id}")
-    public String actualizarEmpleado(@PathVariable Long id, @ModelAttribute Empleado empleadoEditado) {
+    public String actualizarEmpleado(@PathVariable Long id, @ModelAttribute EmpleadoEditarDTO empleadoEditado) {
         empleadoService.editarEmpleadoPorId(empleadoEditado, id);
         return "redirect:/empleados/lista";
     }

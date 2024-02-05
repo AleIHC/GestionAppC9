@@ -1,5 +1,6 @@
 package com.generation.gestionapp.service;
 
+import com.generation.gestionapp.dto.CargoDTO;
 import com.generation.gestionapp.model.Cargo;
 
 import java.util.List;
@@ -8,7 +9,7 @@ public interface CargoService {
 
     List<Cargo> listarCargos();
 
-    Cargo guardarCargo(Cargo cargoParaGuardar);
+    CargoDTO guardarCargo(CargoDTO cargoParaGuardar);
 
     void eliminarCargoPorId(Long id);
 

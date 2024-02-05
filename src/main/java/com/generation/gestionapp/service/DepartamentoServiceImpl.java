@@ -42,7 +42,7 @@ public class DepartamentoServiceImpl implements DepartamentoService {
     @Override
     public Departamento  editarDepartamentoPorId(Departamento  DepartamentoParaEditar, Long id) {
 
-        Departamento   departamentoSeleccionado = departamentoRepository.findById(id).get();
+        Departamento departamentoSeleccionado = departamentoRepository.findById(id).get();
         departamentoSeleccionado.setDepartamentoId(id);
 
         return departamentoRepository.save(departamentoSeleccionado);

@@ -1,5 +1,6 @@
 package com.generation.gestionapp.controller;
 
+import com.generation.gestionapp.dto.CargoDTO;
 import com.generation.gestionapp.model.Cargo;
 import com.generation.gestionapp.service.CargoServiceImpl;
 import lombok.AllArgsConstructor;
@@ -23,8 +24,8 @@ public class CargoRestController {
     }
 
     @PostMapping("/nuevo")
-    public ResponseEntity<Cargo> guardarNuevoCargo(@RequestBody Cargo cargoParaGuardar) {
-        Cargo nuevoCargo = cargoService.guardarCargo(cargoParaGuardar);
+    public ResponseEntity<CargoDTO> guardarNuevoCargo(@RequestBody CargoDTO cargoParaGuardar) {
+        CargoDTO nuevoCargo = cargoService.guardarCargo(cargoParaGuardar);
         return new ResponseEntity<>(nuevoCargo, HttpStatus.CREATED);
     }
 

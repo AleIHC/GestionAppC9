@@ -1,7 +1,10 @@
 package com.generation.gestionapp.controller;
 
+import com.generation.gestionapp.dto.EmpleadoDTO;
+import com.generation.gestionapp.dto.EmpleadoEditarDTO;
 import com.generation.gestionapp.model.Empleado;
 import com.generation.gestionapp.service.EmpleadoServiceImpl;
+import com.generation.gestionapp.service.TareaServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +21,7 @@ import java.util.List;
 @RequestMapping("/api/empleados")
 public class EmpleadoRestController {
 
+    private final TareaServiceImpl tareaService;
     private final EmpleadoServiceImpl empleadoService;
 
     //Obtener el empleado por id
@@ -40,8 +44,8 @@ public class EmpleadoRestController {
 
     //Guardar nuevo empleado
     @PostMapping("/nuevo")
-    public ResponseEntity<Empleado> guardarNuevoEmpleado(@RequestBody Empleado empleadoParaGuardar) {
-        Empleado empleadoNuevo = empleadoService.guardarEmpleado(empleadoParaGuardar);
+    public ResponseEntity<EmpleadoDTO> guardarNuevoEmpleado(@RequestBody EmpleadoDTO empleadoParaGuardar) {
+        EmpleadoDTO empleadoNuevo = empleadoService.guardarEmpleado(empleadoParaGuardar);
         return new ResponseEntity<>(empleadoNuevo, HttpStatus.CREATED);
     }
 
@@ -53,16 +57,14 @@ public class EmpleadoRestController {
     }
 
     //Editar por id
-    @PutMapping("/editar/{id}")
-    public ResponseEntity<Empleado> editarEmpleadoPorId(@RequestBody Empleado empleadoParaEditar,
-                                                        @PathVariable Long id) {
+    @PutMapping("/editar")
+    public ResponseEntity<EmpleadoEditarDTO> editarEmpleadoPorId(@RequestBody EmpleadoEditarDTO empleadoParaEditar,
+                                                        @RequestParam Long id) {
 
-        Empleado empleadoEditado = empleadoService.editarEmpleadoPorId(empleadoParaEditar, id);
+        EmpleadoEditarDTO empleadoEditado = empleadoService.editarEmpleadoPorId(empleadoParaEditar, id);
 
         return new ResponseEntity<>(empleadoEditado, HttpStatus.OK);
     }
-
-
 
 
 

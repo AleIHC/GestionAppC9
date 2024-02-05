@@ -49,7 +49,7 @@ public class Empleado {
     private Cargo cargoEmpleado;
 
 
-    @ManyToMany(mappedBy = "tareaEmpleados", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "tareaEmpleados", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Tarea> empleadoTareas;
 
 }

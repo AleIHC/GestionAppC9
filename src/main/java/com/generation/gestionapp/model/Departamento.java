@@ -1,5 +1,6 @@
 package com.generation.gestionapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,6 +20,7 @@ public class Departamento {
     @Size(min = 3, max = 50)
     private String nombreDepartamento;
 
+    @JsonIgnore//Esto permite ingorar el atributo en el Json para evitar la recursión infinita
     @OneToMany(mappedBy = "departamentoEmpleado")// Indicamos de donde viene mapeada la relación
     private List<Empleado> empleadosDepartamento;
 }

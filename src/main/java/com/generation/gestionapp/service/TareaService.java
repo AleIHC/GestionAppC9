@@ -14,4 +14,6 @@ public interface TareaService {
 
     Tarea editarTareaPorId(Tarea tareaParaEditar, Long id);
 
+
+
 }
