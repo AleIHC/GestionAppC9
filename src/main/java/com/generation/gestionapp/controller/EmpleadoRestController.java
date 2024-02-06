@@ -66,8 +66,35 @@ public class EmpleadoRestController {
         return new ResponseEntity<>(empleadoEditado, HttpStatus.OK);
     }
 
+    /*
+    @PostMapping("/asignar")
+    public ResponseEntity<EmpleadoDTO> asignarTareaEmpleado(@RequestParam(defaultValue = "Imprimir", required = false) String nombreTarea,
+                                                           @RequestParam String nombreEmpleado) {
+        EmpleadoDTO empleadoDTO = empleadoService.asignarTareaEmpleado(nombreTarea, nombreEmpleado);
+        return new ResponseEntity<>(empleadoDTO,HttpStatus.OK);
+    }*/
 
 
+    @PostMapping("/asignar/{nombreTarea}/{nombreEmpleado}")
+    public ResponseEntity<EmpleadoDTO> asignarTareaEmpleado(@PathVariable String nombreTarea,
+                                                            @PathVariable String nombreEmpleado) {
+        EmpleadoDTO empleadoDTO = empleadoService.asignarTareaEmpleado(nombreTarea, nombreEmpleado);
+        return new ResponseEntity<>(empleadoDTO,HttpStatus.OK);
+    }
+
+
+    @GetMapping("/correo")
+    public ResponseEntity<Empleado> buscarEmpleadoPorCorreo(@RequestParam String correo) {
+        return new ResponseEntity<>(empleadoService.buscarEmpleadoPorCorreo(correo), HttpStatus.OK);
+    }
+
+    @GetMapping("/anios")
+    public ResponseEntity<Page<Empleado>> buscarEmpleadosPorAnios(@RequestParam Integer anios,
+                                                                  @RequestParam Integer numeroPagina,
+                                                                  @RequestParam Integer tamanioPagina) {
+        Page<Empleado> paginaEmpleado = empleadoService.bucarEmpleadosPorAnios(anios, numeroPagina, tamanioPagina);
+        return new ResponseEntity<>(paginaEmpleado, HttpStatus.OK);
+    }
 
 
 }

@@ -2,6 +2,7 @@ package com.generation.gestionapp.service;
 
 import com.generation.gestionapp.dto.EmpleadoDTO;
 import com.generation.gestionapp.dto.EmpleadoEditarDTO;
+import com.generation.gestionapp.dto.TareaDTO;
 import com.generation.gestionapp.model.Departamento;
 import com.generation.gestionapp.model.Empleado;
 import com.generation.gestionapp.model.Tarea;
@@ -35,6 +36,7 @@ public class EmpleadoServiceImpl implements EmpleadoService {
         //Agrego validaciones antes de guardar al empleado
         Departamento departamentoEmpleado = departamentoRepository.
                 findByNombreDepartamento(empleadoParaGuardar.getNombreDepartamento());
+
 
         if (empleadoParaGuardar.getNombreEmpleado() != null) {
             //Creamos una nueva instancia vacía del empleado
@@ -72,6 +74,17 @@ public class EmpleadoServiceImpl implements EmpleadoService {
         return empleadoRepository.findById(id).get();
     }
 
+    public Empleado buscarEmpleadoPorCorreo(String correoEmpleado) {
+        return empleadoRepository.buscarPorCorreo(correoEmpleado);
+    }
+
+    public Page<Empleado> bucarEmpleadosPorAnios(Integer anios, Integer numeroPagina, Integer tamanioPagina) {
+        Pageable pageable = PageRequest.of(numeroPagina, tamanioPagina);
+        Page<Empleado> paginaEmpleado = empleadoRepository.findByAniosAntiguedad(anios, pageable);
+        return paginaEmpleado;
+    }
+
+
     @Override
     public EmpleadoEditarDTO editarEmpleadoPorId(EmpleadoEditarDTO empleadoParaEditar, Long id) {
         Boolean empleadoExiste = empleadoRepository.existsById(id);
@@ -92,13 +105,32 @@ public class EmpleadoServiceImpl implements EmpleadoService {
         }
     }
 
-
     //Método para asignar tareas a empleados que recibe el Id de una tarea y el Id de un empleado para asignarle la tarea
-    public void asignarTareaEmpleado(Long id, Long empleadoId) {
+    public EmpleadoDTO asignarTareaEmpleado(String nombreTarea, String nombreEmpleado) {
+
         //Buscamos en la lista de tareas por el id de la tarea indicada
-        Tarea tareaParaAsignar = tareaRepository.findById(id).get();
-        //Asignar la tarea al empleado
-        Empleado empleadoSeleccionado = empleadoRepository.findById(empleadoId).get();
+        Tarea tareaParaAsignar = tareaRepository.findByNombreTarea(nombreTarea);
+        Empleado empleadoSeleccionado = empleadoRepository.findByNombreEmpleado(nombreEmpleado);
+        empleadoSeleccionado.getEmpleadoTareas().add(tareaParaAsignar);
+        /***HASTA ACÁ SE ASIGNA LA TAREA***/
+
+
+        //Construimos una nueva instancia de TareaDTO
+        TareaDTO tareaSeleccionada = TareaDTO.builder()
+                .nombreTarea(tareaParaAsignar.getNombreTarea())
+                .build();
+        List<TareaDTO> nombresTareas = new ArrayList<>();
+
+        //Creamos el DTO que se va a enviar como respuesta
+        EmpleadoDTO empleadoDTO = EmpleadoDTO.builder()
+                .nombreEmpleado(empleadoSeleccionado.getNombreEmpleado())
+                .correoEmpleado(empleadoSeleccionado.getCorreoEmpleado())
+                .direccionEmpleado(empleadoSeleccionado.getDireccionEmpleado())
+                .nombreDepartamento(empleadoSeleccionado.getDepartamentoEmpleado().getNombreDepartamento())
+                .listaTareas(nombresTareas)
+                .build();
+        //Le aañadimos a la lista de TareasDTO del empleadoDTO, la nueva TareaDTO
+        empleadoDTO.getListaTareas().add(tareaSeleccionada);
 
         /*
         Creamos un ArrayList de tareas
@@ -108,8 +140,7 @@ public class EmpleadoServiceImpl implements EmpleadoService {
         //Le seteamos el ArrayList de tareas al empleado
         empleadoSeleccionado.setEmpleadoTareas(tareasEmpleado);
         */
-
         //Refactorizamos para seleccionar de una vez el ArrayList de tareas del usuario por sugerencia de Pao :3
-        empleadoSeleccionado.getEmpleadoTareas().add(tareaParaAsignar);
+        return empleadoDTO;
     }
 }

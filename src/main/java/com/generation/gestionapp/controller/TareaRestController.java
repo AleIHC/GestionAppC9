@@ -29,8 +29,4 @@ public class TareaRestController {
         return new ResponseEntity<>(nuevaTarea, HttpStatus.CREATED);
     }
 
-
-
-
-
 }
